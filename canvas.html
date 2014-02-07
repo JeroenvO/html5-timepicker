@@ -34,16 +34,6 @@ function setIntervalX(callback, delay, repetitions) {
 //draw function to do all the drawing. If drawHandles is false, it is just a clock
 thisCanvas.prototype.drawTime = function(drawHandles){
 	if(this.changed){
-		//change 
-		var p = thisCanvas.prevH;
-		var a = thisCanvas.hA;
-
-		if(((p>=0&&a>Math.PI&&p<Math.PI)||(a>=0&&p>Math.PI&&a<Math.PI))&&(my<thisCanvas.centerY)){ //when mouse around x=0 (top) point, and snd has not yet changed
-			thisCanvas.hSnd = !thisCanvas.hSnd;
-		}
-		//store angle to compare later
-		thisCanvas.prevH = a;
-		
 		//////drawing
 		//clear canvas first
 		this.ctx.clearRect ( 0 , 0 , 2*this.centerX , 2*this.centerY );
@@ -209,7 +199,17 @@ thisCanvas.prototype.setTime = function(hours, minutes){
 	this.changed = true;
 	return 'time set to ' + this.getTimeStr();
 }
+thisCanvas.prototype.setSnd = function(my){
+		//change 
+	var p = this.prevH;
+	var a = this.hA+0.5*Math.PI;
 
+	if(((p>=0&&a>Math.PI&&p<Math.PI)||(a>=0&&p>Math.PI&&a<Math.PI))&&(my<this.centerY)){ //when mouse around x=0 (top) point, and snd has not yet changed
+		this.hSnd = !this.hSnd;
+	}
+	//store angle to compare later
+	this.prevH = a;
+}
 //function object for each canvas, for each timePicker
 //contains all variables for a timepicker like scale and time.
 function thisCanvas(canvas,h,m){
@@ -219,9 +219,9 @@ function thisCanvas(canvas,h,m){
 	this.ctx = canvas.getContext('2d');
 	this.scale = canvas.width/8*3; //outer radius of all circles
 	//colors of arcs
-	this.hColor = 'red';
-	this.mColor = 'green';
-	this.hColor2 = 'DarkRed';
+	this.hColor = 'rgba(177,0,55,1)';
+	this.mColor = 'rgba(255,42,126,1)';
+	this.hColor2 = 'rgba(124,0,39,2)';
 	//this.h = 10; //24*2*Math.PI+1.5*Math.PI
 	//this.m = 40; //60*2*Math.PI+1.5*Math.PI
 	//this.hs = 12; //12 hour offset if time is second round h>12
@@ -258,6 +258,7 @@ function thisCanvas(canvas,h,m){
 			//calculate the rotate angle from the mouse X and Y
 			var angle = Math.atan((my-thisCanvas.centerY)/(mx-thisCanvas.centerX));
 			if(mx<thisCanvas.centerX){angle=angle+Math.PI};
+			thisCanvas.setSnd(my);
 			//set the angle right
 			thisCanvas[thisCanvas.selected+'A'] = angle;
 			//the canvas changed, if this is true, it will be redrawn
@@ -276,7 +277,9 @@ function thisCanvas(canvas,h,m){
 		thisCanvas.changed = true; //redraw to remove 'selected' indication on handles
 		setIntervalX(function() {  //animate the handler
 			thisCanvas[selected+'A'] += step;
+			
 			thisCanvas[selected+'A'] %= 2*Math.PI; // make sure angle does not become too large
+			//console.log(thisCanvas.time().h);
 			thisCanvas.changed = true;
 		}, thisCanvas.drawInterval, thisCanvas.animationStep);
 	});
