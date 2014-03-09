@@ -4,9 +4,9 @@ html5-timepicker
 HTML5 canvas timepicker, inspired on windows 8 alarms app.
 Works in all modern browsers that support html5 canvas
 
-Look at the bottom of the canvas.html file for examples
+Look at the example.html file for examples
 
-See it working at www.vanoorschot.biz/canvas.html
+See it working at www.vanoorschot.biz/example.html
 
 
 use as [name] = new timePicker( [canvas to bind to] , [ options ] )
