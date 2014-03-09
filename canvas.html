@@ -6,23 +6,12 @@ canvas
 </title>
 <style>
 body{
-	-ms-touch-action: none;   
-  	user-select: none;
-	/*-ms-content-zooming: none;
-	-ms-overflow-style: -ms-autohiding-scrollbar*/
-}
-canvas{
-	margin:0px;
-	padding:0px;
+	-ms-touch-action: none;   /*force IE to not scroll the page to be able to change the handles on a touch device*/
 }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 </head>
 <body>
-<canvas width="200" height="150" id="timePicker1"></canvas>
-<div><canvas width="400" height="400" id="timePicker2"></canvas></div>
-<canvas width="400" height="400" id="timePicker3"></canvas>
-<canvas width="400" height="400" id="timePicker4"></canvas>
 <script type="text/javascript">
 
 /*function setIntervalX(callback, delay, repetitions) {
@@ -37,7 +26,7 @@ canvas{
 }*/
 
 //draw function to do all the drawing. If drawHandles is false, it is just a clock
-thisC.prototype.drawTime = function(drawHandles){
+timePicker.prototype.drawTime = function(drawHandles){
 	if(this.changed){
 		//////drawing
 		this.ctx.save();
@@ -63,93 +52,93 @@ thisC.prototype.drawTime = function(drawHandles){
 		*/
 		//dark background below minutes
 		this.ctx.beginPath();
-		this.ctx.arc(0,0, this.scale, 0, 2*Math.PI, false);
+		this.ctx.arc(0,0, this.scale*4, 0, 2*Math.PI, false);
 		this.ctx.closePath();
 		this.ctx.fillStyle = 'rgba(22,22,22,1)';
 		this.ctx.fill();
 		//dark background below hours
 		this.ctx.beginPath();
-		this.ctx.arc(0,0, this.scale*3/4, 0, 2*Math.PI, false);
+		this.ctx.arc(0,0, this.scale*3, 0, 2*Math.PI, false);
 		this.ctx.closePath();
 		this.ctx.fillStyle = 'rgba(14,14,14,1)';
 		this.ctx.fill();
 		if(this.hSnd){ //draw background for second round for hours
 			this.ctx.beginPath();
-			this.ctx.arc(0,0, this.scale*3/4, 0, 2*Math.PI, false);
+			this.ctx.arc(0,0, this.scale*3, 0, 2*Math.PI, false);
 			this.ctx.closePath();
 			this.ctx.fillStyle = this.hColor;
 			this.ctx.fill();
 		}
 		//draw inside
 		this.ctx.beginPath();
-		this.ctx.arc(0,0, this.scale/2, 0, 2*Math.PI, false);
+		this.ctx.arc(0,0, this.scale*2, 0, 2*Math.PI, false);
 		this.ctx.closePath();
 		this.ctx.fillStyle = 'rgba(10,10,10,1)';
 		this.ctx.fill();
 		//general for hours and minutes
-		this.ctx.lineWidth = this.scale/4;
+		this.ctx.lineWidth = this.scale;
 		//draw outer circle for minutes
 		this.ctx.beginPath();
 		this.ctx.strokeStyle=this.mColor;
-		this.ctx.arc(0,0, this.scale*3/4+this.scale/8, -0.5*Math.PI, this.mA, false);
+		this.ctx.arc(0,0, this.scale*3+this.scale/2, -0.5*Math.PI, this.mA, false);
 		this.ctx.stroke();
 		this.ctx.closePath();
 		//draw inner circle for hours
 		this.ctx.beginPath();
 		this.ctx.strokeStyle=this.hSnd?this.hColor2:this.hColor;
-		this.ctx.arc(0,0, this.scale/2+this.scale/8, -0.5*Math.PI, this.hA, false);
+		this.ctx.arc(0,0, this.scale*2+this.scale/2, -0.5*Math.PI, this.hA, false);
 		this.ctx.stroke();
 		this.ctx.closePath();
 		//this.ctx.globalAlpha=1;
 		//draw time in the center
-		var fontSize = this.scale/3;
+		var fontSize = this.scale*4/3;
 		this.ctx.font= fontSize + "px Segoe UI light";
 		var text = this.getTimeStr();
 		this.ctx.textAlign = 'center';
 		this.ctx.fillStyle = 'white';
-		this.ctx.fillText(text,0,0+this.scale/10);
+		this.ctx.fillText(text,0,0+this.scale*2/5);
 		if(drawHandles){
 			handlesPos = this.getHandlers();
 			//set canvas origin for minute
 			this.ctx.save();
 			this.ctx.rotate(this.mA);
-			this.ctx.translate(this.scale*0.75+this.scale*2/8,0); //go to handle location
+			this.ctx.translate(this.scale*3+this.scale,0); //go to handle location
 			//draw triangle for minute
 			this.drawHandle('m');
 			//set canvas origin
 			this.ctx.restore(); //restore the canvas so that origin is in center of image
 			this.ctx.rotate(this.hA);
-			this.ctx.translate(this.scale*0.5+this.scale*2/8,0); //go to handle location
+			this.ctx.translate(this.scale*2+this.scale,0); //go to handle location
 			this.drawHandle('h');
 			}	
 		this.ctx.restore();
 	}
 	this.changed = false;
 }
-thisC.prototype.drawHandle =  function(handle){
+timePicker.prototype.drawHandle =  function(handle){
 //draw triangle
 	this.ctx.beginPath();
 	this.ctx.fillStyle='white'
-	this.ctx.moveTo(this.scale/80,-this.scale*3/80);
-	this.ctx.lineTo(this.scale/80,this.scale*3/80);
-	this.ctx.lineTo(-this.scale/40,0);
+	this.ctx.moveTo(this.scale/20,-this.scale*3/20);
+	this.ctx.lineTo(this.scale/20,this.scale*3/20);
+	this.ctx.lineTo(-this.scale/10,0);
 	this.ctx.fill();
 	this.ctx.closePath();
 	
-	this.ctx.translate(this.scale/8-this.scale/80,0);
+	this.ctx.translate(this.scale/2-this.scale/20,0);
 	//draw handle
 	this.ctx.beginPath();
-	this.ctx.arc(0,0, this.scale/8-this.scale/40, 0, 2*Math.PI, false);
+	this.ctx.arc(0,0, this.scale/2-this.scale/10, 0, 2*Math.PI, false);
 	this.ctx.closePath();
 	this.ctx.strokeStyle='white'
-	this.ctx.lineWidth = this.scale/40;
+	this.ctx.lineWidth = this.scale/10;
 	this.ctx.stroke();
 	this.ctx.fillStyle = (this.selected===handle)?'white':'rgba(38,38,38,1)';
 	this.ctx.fill();
 }
-//thisC.prototype.drawArc = function()
+
 //return the position of the mouse relative to the canvas
-thisC.prototype.getMousePos = function(evt) {
+timePicker.prototype.getMousePos = function(evt) {
 	var rect = this.canvas.getBoundingClientRect();
 	return {
 		x: evt.clientX - rect.left,
@@ -159,24 +148,16 @@ thisC.prototype.getMousePos = function(evt) {
 
 //check whether a given position (of the mouse) in xMouse and yMouse falls inside one of the handlers.
 //used for checked whether handle is selected
-thisC.prototype.contains = function(xMouse, yMouse){
+timePicker.prototype.contains = function(xMouse, yMouse){
 	handlersPos = this.getHandlers();
-	if((Math.pow(handlersPos.xh-xMouse,2)+Math.pow(handlersPos.yh-yMouse,2))  <= this.scale/8*this.scale/8 )
+	if((Math.pow(handlersPos.xh-xMouse,2)+Math.pow(handlersPos.yh-yMouse,2))  <= this.scale/2*this.scale/2 )
 		return 'h';
-	if((Math.pow(handlersPos.xm-xMouse,2)+Math.pow(handlersPos.ym-yMouse,2)) <= this.scale/8*this.scale/8 )
+	if((Math.pow(handlersPos.xm-xMouse,2)+Math.pow(handlersPos.ym-yMouse,2)) <= this.scale/2*this.scale/2 )
 		return 'm';
 	else
 		return false;
 }
 
-//return the string representing the time
-thisC.prototype.getTimeStr = function(){
-	var t = this.getTime()
-	var zero = t.m.toString().length==1?'0':'';;
-	var timeStr = (t.h + ':' + zero + t.m.toString());
-	if(this.onTimeChange){this.onTimeChange()}
-	return timeStr;
-}
 
 //return hour and minutes angle [0:2PI] from the [0:60] and [0:24] values
 function getAngle(h, m){
@@ -186,24 +167,16 @@ function getAngle(h, m){
 		s : h>12?true:false
 	};
 }
-thisC.prototype.setWidth = function(w,h,centerX,centerY,scale){
+timePicker.prototype.setWidth = function(w,h,centerX,centerY,scale){
 	this.canvas.width =w;
 	this.canvas.heigth = h;
 	this.centerX = centerX || w/2;
 	this.centerY = centerY || h/2;
-	this.scale = scale || Math.min(w,h)/10*4; //outer radius of all circles
+	this.scale = scale || Math.min(w,h)/10; //outer radius of all circles
 	this.changed = true;
 }
-//return an angle converted to time. max is the maximum value of the time, this is 24 or 60
-thisC.prototype.getTime = function(){
-	var offset = this.hSnd?12:0;
-	return {
-		h : (Math.round((this.hA+0.5*Math.PI)*6/Math.PI) + offset)%24,
-		m : (Math.round((this.mA+0.5*Math.PI)*30/Math.PI))%60
-	}
-}
 //animate a handler to a given angle
-thisC.prototype.animate = function(handler,endHours,endMinutes){
+timePicker.prototype.animate = function(handler,endHours,endMinutes){
 	this.tA = this[handler+'A']; //current angle of handler that should animate
 	//move either to closest by position or to hA, mA position
 	var endAngle;
@@ -215,50 +188,63 @@ thisC.prototype.animate = function(handler,endHours,endMinutes){
 	if(endAngle==-1/2*Math.PI&&this.tA>Math.PI){endAngle+=Math.PI*2} //if end is on top, make sure that the handle does not animate a full round
 	var step = (endAngle-this.tA)/this.animationStep; //step size for the animation
 	var x = 0;
-	var thisC = this; //store this to use in setinterval function
+	var timePicker = this; //store this to use in setinterval function
 
     var intervalID = window.setInterval(function () {
-		thisC[handler+'A'] += step;
-		thisC[handler+'A'] %= 2*Math.PI; // make sure angle does not become too large
-		//SthisC.setSnd();
-		thisC.changed = true;
-        if (++x === thisC.animationStep) {
+		timePicker[handler+'A'] += step;
+		timePicker[handler+'A'] %= 2*Math.PI; // make sure angle does not become too large
+		//StimePicker.setSnd();
+		timePicker.changed = true;
+        if (++x === timePicker.animationStep) {
         	window.clearInterval(intervalID);
         }
-		//console.log('animating: '+handler+thisC.animationStep);
-    }, thisC.drawInterval);
+		//console.log('animating: '+handler+timePicker.animationStep);
+    }, timePicker.drawInterval);
 	
 }
 //returns the centers of the handles for the minutes and hours.
 //Used to draw the handles and to check whether they are selected
-thisC.prototype.getHandlers = function(draw){
+timePicker.prototype.getHandlers = function(draw){
 /*  this.scale*0.5 outside of inner time circle
 	this.scale*0.75 outside of hours oocircle
 	this.scale*3/8 width of arc + diameter of handle
 	*/
 	return {
-		xh : this.centerX+Math.cos(this.hA)*(this.scale*0.5+this.scale*3/8),
-		yh : this.centerY+Math.sin(this.hA)*(this.scale*0.5+this.scale*3/8),
-		xm : this.centerX+Math.cos(this.mA)*(this.scale*0.75+this.scale*3/8),
-		ym : this.centerY+Math.sin(this.mA)*(this.scale*0.75+this.scale*3/8)
+		xh : this.centerX+Math.cos(this.hA)*(this.scale*2+this.scale*3/2),
+		yh : this.centerY+Math.sin(this.hA)*(this.scale*2+this.scale*3/2),
+		xm : this.centerX+Math.cos(this.mA)*(this.scale*3+this.scale*3/2),
+		ym : this.centerY+Math.sin(this.mA)*(this.scale*3+this.scale*3/2)
 	};
 }
 
+//return an angle converted to time. max is the maximum value of the time, this is 24 or 60
+timePicker.prototype.getTime = function(){
+	var offset = this.hSnd?12:0;
+	return {
+		h : (Math.round((this.hA+0.5*Math.PI)*6/Math.PI) + offset)%24,
+		m : (Math.round((this.mA+0.5*Math.PI)*30/Math.PI))%60
+	}
+}
+
+//return the string representing the time
+timePicker.prototype.getTimeStr = function(){
+	var t = this.getTime()
+	var zero = t.m.toString().length==1?'0':'';;
+	var timeStr = (t.h + ':' + zero + t.m.toString());
+//	if(this.onTimeChange){this.onTimeChange()}
+	return timeStr;
+}
+
 //set the timePicker to a given time
-thisC.prototype.setTime = function(hours, minutes){
+timePicker.prototype.setTime = function(hours, minutes){
 	this.hSnd = hours>12?true:false;
 	//console.log('settime'+hours+minutes);
 	this.animate('h',hours,minutes);
 	this.animate('m',hours,minutes);
-	/*
-	var r = getAngle(hours, minutes);
-	this.hA = r.h;
-	this.mA = r.m;
-	this.hSnd = r.s;*/
-	//this.changed = true;
-	//return 'time set to ' + this.getTimeStr();
 }
-thisC.prototype.setSnd = function(my){
+
+//set whether 12 or 24 hour after mousemove
+timePicker.prototype.setSnd = function(my){
 		//change 
 	var p = this.prevH;
 	var a = this.hA+0.5*Math.PI;
@@ -269,7 +255,7 @@ thisC.prototype.setSnd = function(my){
 	this.prevH = a;
 }
 
-thisC.prototype.setColor = function(color){
+timePicker.prototype.setColor = function(color){
 	switch(color){
 		case 'pink': color = {m:'rgba(255,42,126,1)',h:'rgba(177,0,55,1)',h2:'rgba(124,0,39,1)'};
 		break;
@@ -287,18 +273,18 @@ thisC.prototype.setColor = function(color){
 }
 //function object for each canvas, for each timePicker
 //contains all variables for a timepicker like scale and time.
-function thisC(canvas,opts){
+function timePicker(canvas,opts){
 	this.canvas = canvas;
-	this.setWidth(canvas.width,canvas.height,opts.centerX, opts.centerY);
+	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false);
 	this.ctx = canvas.getContext('2d');
 
 	this.onTimeChange = opts.onTimeChange || false;
 	this.animationStep = opts.animationStep || 5; // number of steps in handle animation
 	this.drawHandles = (typeof opts.drawHandles === 'undefined')?true:false; //draw handles on the timepicker. If false, it is just a clock	
 	this.drawInterval = opts.drawInterval || 10;
-
-	var thisC = this;
-	setInterval(function() { thisC.drawTime(thisC.drawHandles); }, thisC.drawInterval);
+	this.onTimeChange = opts.onTimeChange || false;
+	var timePicker = this;
+	setInterval(function() { timePicker.drawTime(timePicker.drawHandles); }, timePicker.drawInterval);
 
 
 	this.hA = 0;
@@ -316,81 +302,116 @@ function thisC(canvas,opts){
 	//if the mouse is down, check whether it is on any of the handles
 	canvas.addEventListener('mousedown', function(e) {
 		//console.log(e);
-		var mouse = thisC.getMousePos(e);
-		thisC.selected = thisC.contains(mouse.x,mouse.y); //this functions sets thisC.selected
-		thisC.changed = true; //redraw to show selected handle on click, not only on draw
+		var mouse = timePicker.getMousePos(e);
+		timePicker.selected = timePicker.contains(mouse.x,mouse.y); //this functions sets timePicker.selected
+		timePicker.changed = true; //redraw to show selected handle on click, not only on draw
 	});
 	//if the mouse if moved AND a handler is selected, move the handler and calculate the new time
 	canvas.addEventListener('mousemove', function(e) {
-		if(thisC.selected){
-			var mouse = thisC.getMousePos(e);
+		if(timePicker.selected){
+			if(timePicker.onTimeChange){timePicker.onTimeChange();} //function executed when the handles are changed
+			//get mouse positions for moving
+			var mouse = timePicker.getMousePos(e);
 			var mx = mouse.x;
 			var my = mouse.y;
 			//calculate the rotate angle from the mouse X and Y
-			var angle = Math.atan((my-thisC.centerY)/(mx-thisC.centerX));
-			if(mx<thisC.centerX){angle=angle+Math.PI};
+			var angle = Math.atan((my-timePicker.centerY)/(mx-timePicker.centerX));
+			if(mx<timePicker.centerX){angle=angle+Math.PI};
 					//change 
-			if(thisC.selected=='h'){thisC.setSnd(my)};
+			if(timePicker.selected=='h'){timePicker.setSnd(my)};
 
 			//set the angle right
-			thisC[thisC.selected+'A'] = angle;
+			timePicker[timePicker.selected+'A'] = angle;
 			//the canvas changed, if this is true, it will be redrawn
-			thisC.changed = true;
+			timePicker.changed = true;
 		}
 	});
 	//stop the selection when the mouse is released.
-	canvas.addEventListener('mouseup', function(e) {
-
-		if(thisC.selected){
-			thisC.animate(thisC.selected,true); //animate handlers to position
-			thisC.selected = false; // which handle is moving is now stored, so handle can be deselected
-			thisC.changed = true;
+	//bind this one to window to also stop the selection if mouse is released outside the canvas area.
+	window.addEventListener('mouseup', function(e) { 
+		if(timePicker.selected){
+			timePicker.animate(timePicker.selected,true); //animate handlers to position
+			timePicker.selected = false; // which handle is moving is now stored, so handle can be deselected
+			timePicker.changed = true;
 			}
-//		thisC.changed = true; //redraw to remove 'selected' indication on handles
-		
-		
-		/*setIntervalX(function() {  //animate the handler
-			thisC[selected+'A'] += step;
-			thisC[selected+'A'] %= 2*Math.PI; // make sure angle does not become too large
-			thisC.changed = true;
-		}, thisC.drawInterval, thisC.animationStep);*/
 	});
-	
 }
 
 </script><br />
-<span id='timePickerValue'></span>;
+
+<!-- don't forget this part -->
+<canvas width="200" height="150" id="timePicker1"></canvas>
+<div><canvas width="400" height="400" id="timePicker2"></canvas></div> <!-- can also be in a div -->
+<canvas width="400" height="400" id="timePicker3"></canvas>
+<canvas width="400" height="400" id="timePicker4"></canvas>
+<canvas width="400" height="400" id="timePicker5"></canvas>
+<!--an example division to show the time of timepicker 4 -->
+<span id='timePickerValue'></span>
 <a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
 <script>
+
+/*
+use as [name] = new timePicker( [canvas to bind to] , [ options ] )
+
+options array;
+hours		 	 -> initial number of hours
+minutes		 	 -> initial minutes
+drawHandles  	 -> whether to draw handles and enable dragging. If false it is a sort of clock
+onTimeChange 	 -> callback on dragging the handles
+centerX, centerY -> define a custom center position for the timepicker. The center of the canvas is default
+animationStep    -> number of drawings to animate the handler to its position default is 5, so 50ms
+drawInterval     -> number of milliseconds between drawing. default is 10ms = 100hz. The real speed depends on the browser and computer.
+
+to set options after creating the timePicker use these functions.
+[name].setTime([hours],[minutes]) to set the time
+[name].setColor([name of color])  to set a predefined color. [name of color] can be 'pink', 'green', 'orange' or 'blue'. To set it to a custom color, pass an array as [name of color] in the format 
+	{
+		h: rgba(97,164,0,1), //color for hours <12
+		h2: rgba(97,164,0,1), //color for hours >12
+		m: rgba(97,164,0,1)   //color for minutes
+	}
+	
+	
+to retrieve values at any moment use
+[name].getTime() to get the array [hours, minutes]
+[name].getTimeStr() to get hours:minutes
+*/
+
 //make a canvas object
-timePicker1 = new thisC(document.getElementById('timePicker1'), {
+timePicker1 = new timePicker(document.getElementById('timePicker1'), {
 	hours: 5,
-	minutes: 20
+	minutes: 20,
+	drawHandles: false
 });
 timePicker1.setColor('green');
 
-timePicker2 = new thisC(document.getElementById('timePicker2'), {
+timePicker2 = new timePicker(document.getElementById('timePicker2'), {
 	//h:8,
 	//m:10
 });
 timePicker2.setTime(6,50);
 timePicker2.setColor('pink');
-timePicker3 = new thisC(document.getElementById('timePicker3'), {
+timePicker3 = new timePicker(document.getElementById('timePicker3'), {
 	hours:5,
-	minutes:10,
-	onTimeChange : function(){document.getElementById('timePickerValue').innerHTML = thisC.value;}
+	minutes:10
 });
 timePicker3.setColor('blue');
-timePicker4 = new thisC(document.getElementById('timePicker4'), {
+timePicker4 = new timePicker(document.getElementById('timePicker4'), {
 	//h:10,
 	//m:10
-});
-timePicker4.setColor('orange');
+	onTimeChange: function(){
+		//set the value of the timePickerValue span as defined above
+		document.getElementById('timePickerValue').innerHTML = this.getTimeStr();
+	}
+})
+timePicker4.setColor('orange'); //change the color afterwards
 
 timePicker4.setTime(8,50);
 
-//timePicker.getTime()
-//timePicker1.timeField=document.getElementById('timePickerValue')
+
+timePickerC = new timePicker(document.getElementById("timePicker5"),{});
+//to show how to make it ugly
+timePickerC.setColor({h:'red', h2:'darkred', m: 'green'});
 </script>
 </body>
 </html>
