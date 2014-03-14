@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>
-canvas
+Windows 8 alarm app like timepicker in HTML 5 canvas and javascript (no jquery)
 </title>
 <style>
 body{
@@ -12,6 +12,11 @@ body{
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 </head>
 <body>
+<h1>
+Windows 8 alarm app like timepicker in HTML 5 canvas and javascript (no jquery)
+</h1>
+<a href="jeroen.vanoorschot.biz">Jeroen van Oorschot</a><br /><a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
+<br /><br />
 <script type="text/javascript" src="timePicker.js">
 </script>
 
@@ -23,7 +28,7 @@ body{
 <canvas width="400" height="400" id="timePicker5"></canvas>
 <!--an example division to show the time of timepicker 4 -->
 <span id='timePickerValue'></span>
-<a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
+
 <script>
 
 /*
@@ -61,17 +66,28 @@ timePicker1 = new timePicker(document.getElementById('timePicker1'), {
 });
 timePicker1.setColor('green');
 
+
+
+
+
 timePicker2 = new timePicker(document.getElementById('timePicker2'), {
 	//h:8,
 	//m:10
 });
 timePicker2.setTime(6,50);
 timePicker2.setColor('pink');
+
+
+
+
 timePicker3 = new timePicker(document.getElementById('timePicker3'), {
 	hours:5,
-	minutes:10
+	minutes:10,
+	color: "blue"
 });
-timePicker3.setColor('blue');
+
+
+
 timePicker4 = new timePicker(document.getElementById('timePicker4'), {
 	//h:10,
 	//m:10
@@ -81,13 +97,17 @@ timePicker4 = new timePicker(document.getElementById('timePicker4'), {
 	}
 })
 timePicker4.setColor('orange'); //change the color afterwards
-
 timePicker4.setTime(8,50);
+
+
 
 
 timePickerC = new timePicker(document.getElementById("timePicker5"),{});
 //to show how to make it ugly
 timePickerC.setColor({h:'red', h2:'darkred', m: 'green'});
 </script>
+<button onClick="timePicker4.setColor('green')">Make 4th timepicker green</button>
+<button onClick="timePicker4.setColor('orange')">Make 4th timepicker orange</button>
+
 </body>
 </html>

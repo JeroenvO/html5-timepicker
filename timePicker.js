@@ -245,41 +245,40 @@ timePicker.prototype.setColor = function(color){
 	this.hColor = color.h;
 	this.mColor = color.m;
 	this.hColor2 = color.h2;
+	this.changed = true;
 }
 //function object for each canvas, for each timePicker
 //contains all variables for a timepicker like scale and time.
 function timePicker(canvas,opts){
+	//init
 	this.canvas = canvas;
-	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false);
-	this.ctx = canvas.getContext('2d');
-
-	this.onTimeChange = opts.onTimeChange || false;
-	this.animationStep = opts.animationStep || 5; // number of steps in handle animation
-	this.drawHandles = (typeof opts.drawHandles === 'undefined')?true:false; //draw handles on the timepicker. If false, it is just a clock	
-	this.drawInterval = opts.drawInterval || 10;
-	this.onTimeChange = opts.onTimeChange || false;
-	var timePicker = this;
-	setInterval(function() { timePicker.drawTime(timePicker.drawHandles); }, timePicker.drawInterval);
-
-
+	this.ctx = canvas.getContext('2d');            //get the drawable part of the canvas
+	var timePicker = this;                         //store (this) class in variable, so events can use (this) as well
 	this.hA = 0;
 	this.mA = 0;
 	this.tA = 0; //temporary angle of the last moved handler, used to animate handlers on release
 	this.changed = true;
 	
+	//options
+	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false);
+	this.drawHandles = (typeof opts.drawHandles === 'undefined')?true:false; //draw handles on the timepicker. If false, it is just a clock	
+	if(opts.color)this.setColor(opts.color);
+	this.animationStep = opts.animationStep || 5; 	//number of steps in handle animation
+	this.drawInterval = opts.drawInterval || 10;	//time between drawing the canvas in ms
+	this.onTimeChange = opts.onTimeChange || false; //callback function
 	this.setTime(opts.hours, opts.minutes);
 	
-	//this.changed = true;
-	
-	//store (this) class in variable, so events can use (this) as well
-	
+	//start the drawing
+	setInterval(function() { timePicker.drawTime(timePicker.drawHandles); }, timePicker.drawInterval);
 	
 	//if the mouse is down, check whether it is on any of the handles
 	canvas.addEventListener('mousedown', function(e) {
 		//console.log(e);
-		var mouse = timePicker.getMousePos(e);
-		timePicker.selected = timePicker.contains(mouse.x,mouse.y); //this functions sets timePicker.selected
-		timePicker.changed = true; //redraw to show selected handle on click, not only on draw
+		if(timePicker.drawHandles){ //only enable select-handle if there are handles
+			var mouse = timePicker.getMousePos(e);
+			timePicker.selected = timePicker.contains(mouse.x,mouse.y); //this functions sets timePicker.selected
+			timePicker.changed = true; //redraw to show selected handle on click, not only on draw
+		}
 	});
 	//if the mouse if moved AND a handler is selected, move the handler and calculate the new time
 	canvas.addEventListener('mousemove', function(e) {
