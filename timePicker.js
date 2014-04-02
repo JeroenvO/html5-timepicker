@@ -51,7 +51,7 @@ timePicker.prototype.drawTime = function(drawHandles){
 		this.ctx.fillStyle = 'rgba(10,10,10,1)';
 		this.ctx.fill();
 		//general for hours and minutes
-		this.ctx.lineWidth = this.scale;
+		this.ctx.lineWidth = this.scale; //draw the two arcs as very thick lines
 		//draw outer circle for minutes
 		this.ctx.beginPath();
 		this.ctx.strokeStyle=this.mColor;
@@ -92,6 +92,8 @@ timePicker.prototype.drawTime = function(drawHandles){
 }
 timePicker.prototype.drawHandle =  function(handle){
 //draw triangle
+	var lw = Math.round(this.scale/6.66667,0);
+	
 	this.ctx.beginPath();
 	this.ctx.fillStyle='white'
 	this.ctx.moveTo(this.scale/20,-this.scale*3/20);
@@ -100,13 +102,15 @@ timePicker.prototype.drawHandle =  function(handle){
 	this.ctx.fill();
 	this.ctx.closePath();
 	
-	this.ctx.translate(this.scale/2-this.scale/20,0);
+	this.ctx.translate(this.scale/2,0);
 	//draw handle
+	this.ctx.lineWidth = lw;
 	this.ctx.beginPath();
-	this.ctx.arc(0,0, this.scale/2-this.scale/10, 0, 2*Math.PI, false);
-	this.ctx.closePath();
 	this.ctx.strokeStyle='white'
-	this.ctx.lineWidth = this.scale/10;
+	this.ctx.arc(0,0, this.scale/2-lw/2, 0, 2*Math.PI, false);
+	this.ctx.closePath();
+	
+	
 	this.ctx.stroke();
 	this.ctx.fillStyle = (this.selected===handle)?'white':'rgba(38,38,38,1)';
 	this.ctx.fill();
@@ -147,7 +151,7 @@ timePicker.prototype.setWidth = function(w,h,centerX,centerY,scale){
 	this.canvas.heigth = h;
 	this.centerX = centerX || w/2;
 	this.centerY = centerY || h/2;
-	this.scale = scale || Math.min(w,h)/10; //outer radius of all circles
+	this.scale = scale || Math.min(w,h)/10; //size of one arc. 40 (=40px) is the same as alarms app one alarm view.
 	this.changed = true;
 }
 //animate a handler to a given angle
@@ -260,7 +264,7 @@ function timePicker(canvas,opts){
 	this.changed = true;
 	
 	//options
-	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false);
+	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false, opts.scale || false);
 	this.drawHandles = (typeof opts.drawHandles === 'undefined')?true:false; //draw handles on the timepicker. If false, it is just a clock	
 	if(opts.color)this.setColor(opts.color);
 	this.animationStep = opts.animationStep || 5; 	//number of steps in handle animation

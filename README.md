@@ -19,6 +19,7 @@ onTimeChange 	 -> callback on dragging the handles
 centerX, centerY -> define a custom center position for the timepicker. The center of the canvas is default
 animationStep    -> number of drawings to animate the handler to its position default is 5, so 50ms
 drawInterval     -> number of milliseconds between drawing. default is 10ms = 100hz. The real speed depends on the browser and computer.
+scale			 -> set the scale of the timepicker. This is the number of pixels the arcs for minutes and hours is thick. The alarms app uses 40px.  When not set, it adapts to the canvas size: scale = smallest_side / 10.
 
 to set options after creating the timePicker use these functions.
 [name].setTime([hours],[minutes]) to set the time
