@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Windows 8 alarm app like timepicker in HTML 5 canvas and javascript (no jquery)
+</title>
+<style>
+/*force IE to not scroll the page to be able to change the handles on a touch device*/
+canvas{
+	-ms-touch-action: none;   
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<!--offcourse jquery is needed-->
+<script src="jquery-2.0.3.min.js"></script>
+<!--jquery wrapper for the timepicker-->
+<script src="jquery-timepicker.js"></script>
+<!-- also include the original file-->
+<script src="timePicker.js"></script>
+</head>
+<body>
+<h1>
+html5-timepicker
+================
+</h1><p>
+<br />
+HTML5 canvas timepicker, inspired on windows 8 alarms app.
+Can be used as a time input field (instead of form) on a website and as clock.
+<br />
+Works in all modern browsers that support html5 canvas
+<br />
+Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
+</p>
+<a href="jeroen.vanoorschot.biz">Jeroen van Oorschot</a><br /><a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
+<a href="http://www.vanoorschot.biz/examplepopup.html">Use it in a popup</a>
+<br /><br />
+<canvas width="400" height="400" class="timePicker"></canvas>
+<canvas width="400" height="400" class="timePicker"></canvas>
+<script>
+$(".timePicker").timepicker({
+	hours: 20,
+	minutes: 5,
+	color: 'blue'
+	
+	});
+
+</script>
+
+
+</body>
+</html>

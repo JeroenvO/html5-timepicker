@@ -265,7 +265,7 @@ function timePicker(canvas,opts){
 	
 	//options
 	this.setWidth(canvas.width,canvas.height,opts.centerX || false, opts.centerY || false, opts.scale || false);
-	this.drawHandles = (typeof opts.drawHandles === 'undefined')?true:false; //draw handles on the timepicker. If false, it is just a clock	
+	this.drawHandles = (typeof opts.drawHandles === 'undefined' || opts.drawHandles == true)?true:false; //draw handles on the timepicker. If false, it is just a clock	
 	if(opts.color)this.setColor(opts.color);
 	this.animationStep = opts.animationStep || 5; 	//number of steps in handle animation
 	this.drawInterval = opts.drawInterval || 10;	//time between drawing the canvas in ms

@@ -2,9 +2,11 @@ html5-timepicker
 ================
 
 HTML5 canvas timepicker, inspired on windows 8 alarms app.
-Can be used as a time input field (instead of form) on a website and as clock.
+Can be used as a time input field (instead of form) on a website and as a clock on a website.
 
 Works in all modern browsers that support html5 canvas
+
+Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
 
 Look at the example.html file for examples
 

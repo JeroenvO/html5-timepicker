@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+Windows 8 alarm app like timepicker in HTML 5 canvas and javascript (no jquery), POPUP DEMO
+</title>
+<style>
+canvas{
+	-ms-touch-action: none;   
+}
+#id-time-canvas { display:none; }
+</style>
+</head>
+
+<body>
+<h1>
+html5-timepicker, popup demo
+============================
+</h1><p>
+<br />
+HTML5 canvas timepicker, inspired on windows 8 alarms app.
+Can be used as a time input field (instead of form) on a website and as clock.
+<br />
+Works in all modern browsers that support html5 canvas
+<br />
+Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
+</p>
+<p>
+Demo for using this timepicker in a popup.
+</p>
+<a href="jeroen.vanoorschot.biz">Jeroen van Oorschot</a><br /><a href="http://www.vanoorschot.biz/example.html">Normal example page</a><br /><a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
+<br /><br />
+<script type="text/javascript" src="timePicker.js"></script>
+<script type="text/javascript" src="jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="jquery.bpopup.js"></script>
+<!-- don't forget this part -->
+<!-- Definition of the canvas objects-->
+<canvas width="400" height="400" id="id-time-canvas"></canvas>
+<div id="id-time-label" >Geen tijd</div>
+<button id="id-time-button">Click here</button>
+<script>
+
+	timepicker = new timePicker(document.getElementById('id-time-canvas'), {
+		hours: 5,
+		minutes: 20,
+		drawHandles: true
+	});
+	timepicker.setColor('green');
+	
+	$('#id-time-button').bind('click', function(e){
+		e.preventDefault();
+                $('#id-time-canvas').bPopup({
+                    appendTo: 'body'
+					, appending: false
+                    , zIndex: 2
+					, positionStyle: 'fixed'
+					, onClose: function(){
+						$('#id-time-label').text('tijd: '+ timepicker.getTimeStr());	
+					}
+                });
+	});
+
+</script>
+</body>
+</html>
