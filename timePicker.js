@@ -279,7 +279,7 @@ function timePicker(canvas,opts){
 	//if the mouse is down, check whether it is on any of the handles
 	canvas.addEventListener('mousedown', function(e) {
 		//console.log(e);
-		if(timePicker.drawHandles){ //only enable select-handle if there are handles
+		if(timePicker.drawHandles && document.body.contains(timePicker.canvas)){ //only enable select-handle if there are handles
 			var mouse = timePicker.getMousePos(e);
 			timePicker.selected = timePicker.contains(mouse.x,mouse.y); //this functions sets timePicker.selected
 			timePicker.changed = true; //redraw to show selected handle on click, not only on draw
@@ -287,7 +287,7 @@ function timePicker(canvas,opts){
 	});
 	//if the mouse if moved AND a handler is selected, move the handler and calculate the new time
 	canvas.addEventListener('mousemove', function(e) {
-		if(timePicker.selected){
+		if(timePicker.selected && document.body.contains(timePicker.canvas)){
 			if(timePicker.onTimeChange){timePicker.onTimeChange();} //function executed when the handles are changed
 			//get mouse positions for moving
 			var mouse = timePicker.getMousePos(e);
@@ -308,12 +308,12 @@ function timePicker(canvas,opts){
 	//stop the selection when the mouse is released.
 	//bind this one to window to also stop the selection if mouse is released outside the canvas area.
 	window.addEventListener('mouseup', function(e) { 
-		if(timePicker.selected){
+		if(timePicker.selected && document.body.contains(timePicker.canvas)){
 			timePicker.animate(timePicker.selected,true); //animate handlers to position
 			timePicker.selected = false; // which handle is moving is now stored, so handle can be deselected
 			timePicker.changed = true;
 			}
-		if(timePicker.onCenterClick){
+		if(timePicker.onCenterClick && document.body.contains(timePicker.canvas)){
 			var mouse = timePicker.getMousePos(e);
 			if((Math.pow(timePicker.centerX-mouse.x,2)+Math.pow(timePicker.centerY-mouse.y,2))  < timePicker.scale*timePicker.scale*4 ){
 				timePicker.onCenterClick();

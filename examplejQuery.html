@@ -9,14 +9,17 @@ Windows 8 alarm app like timepicker in HTML 5 canvas and javascript (no jquery)
 canvas{
 	-ms-touch-action: none;   
 }
+canvas#c1 { display:none; }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 <!--offcourse jquery is needed-->
 <script src="jquery-2.0.3.min.js"></script>
 <!--jquery wrapper for the timepicker-->
-<script src="jquery-timepicker.js"></script>
+<script src="jquery.timepicker.js"></script>
 <!-- also include the original file-->
 <script src="timePicker.js"></script>
+<script src="jquery.bpopup.js"></script>
+
 </head>
 <body>
 <h1>
@@ -34,19 +37,36 @@ Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
 <a href="jeroen.vanoorschot.biz">Jeroen van Oorschot</a><br /><a href="https://github.com/JeroenvO/html5-timepicker">github code</a>
 <a href="http://www.vanoorschot.biz/examplepopup.html">Use it in a popup</a>
 <br /><br />
-<canvas width="400" height="400" class="timePicker" id="1"></canvas>
-<canvas width="400" height="400" class="timePicker" id="2"></canvas>
+<canvas width="400" height="400" class="timePicker" id="c1"></canvas>
+<canvas width="400" height="400" class="timePicker" id="c2"></canvas>
+<button id="c1">Click here</button>
 <script>
-$(".timePicker").timepicker({
+//create the timepicker objects
+$(".timePicker").timePicker({
 	hours: 20,
 	minutes: 5,
 	color: 'blue'
 	
 	});
+	
+//make one of them a popup
+$('button#c1').bind('click', function(e){
+	e.preventDefault();
+			id = $(this).attr('id');
+			$('canvas#'+id).bPopup({ //popup canvas belonging to this button
+				appendTo: 'body'
+				, appending: false
+				, zIndex: 2
+				, positionStyle: 'fixed'
+				, onClose: function(){
+					$('button#'+id).text($('canvas#'+id).data('tp').getTimeStr());	//get the time from the timepicker
+				}
+			});
+});
 //the unique class identifier used for all the functions, is now stored in data('tp') So use this for the functions 
 </script>
-<button onClick="$('#1').data('tp').setColor('green')">Make 4th timepicker green</button>
-<button onClick="$('#1').data('tp').setColor('orange')">Make 4th timepicker orange</button>
+<button onClick="$('#2').data('tp').setColor('green')">Make 4th timepicker green</button>
+<button onClick="$('#2').data('tp').setColor('orange')">Make 4th timepicker orange</button>
 
 </body>
 </html>
