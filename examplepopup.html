@@ -12,6 +12,7 @@ canvas{
 }
 #id-time-canvas { display:none; }
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
 </head>
 
 <body>
@@ -37,7 +38,7 @@ Demo for using this timepicker in a popup.
 <script type="text/javascript" src="jquery.bpopup.js"></script>
 <!-- don't forget this part -->
 <!-- Definition of the canvas objects-->
-<canvas width="400" height="400" id="id-time-canvas"></canvas>
+<canvas width="320" height="320" id="id-time-canvas"></canvas>
 <div id="id-time-label" >Geen tijd</div>
 <button id="id-time-button">Click here</button>
 <script>
@@ -45,7 +46,8 @@ Demo for using this timepicker in a popup.
 	timepicker = new timePicker(document.getElementById('id-time-canvas'), {
 		hours: 5,
 		minutes: 20,
-		drawHandles: true
+		drawHandles: true,
+		onCenterClick: function(){alert("center clicked");}
 	});
 	timepicker.setColor('green');
 	

@@ -270,6 +270,7 @@ function timePicker(canvas,opts){
 	this.animationStep = opts.animationStep || 5; 	//number of steps in handle animation
 	this.drawInterval = opts.drawInterval || 10;	//time between drawing the canvas in ms
 	this.onTimeChange = opts.onTimeChange || false; //callback function
+	this.onCenterClick = opts.onCenterClick || false;
 	this.setTime(opts.hours, opts.minutes);
 	
 	//start the drawing
@@ -312,5 +313,11 @@ function timePicker(canvas,opts){
 			timePicker.selected = false; // which handle is moving is now stored, so handle can be deselected
 			timePicker.changed = true;
 			}
+		if(timePicker.onCenterClick){
+			var mouse = timePicker.getMousePos(e);
+			if((Math.pow(timePicker.centerX-mouse.x,2)+Math.pow(timePicker.centerY-mouse.y,2))  < timePicker.scale*timePicker.scale*4 ){
+				timePicker.onCenterClick();
+			}
+		}
 	});
 }

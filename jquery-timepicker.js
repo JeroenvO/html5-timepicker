@@ -6,7 +6,7 @@
 (function ( $ ) {
 	$.fn.timepicker = function( options ) {
 		return this.each(function(){
-			var timePicker1 = new timePicker(this, options);
+			$(this).data('tp', new timePicker(this, options));
 		});
 	};
 }( jQuery ));
