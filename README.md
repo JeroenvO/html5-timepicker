@@ -11,8 +11,11 @@ Look at the example.html file for examples
 
 See it working at www.vanoorschot.biz/example.html
 
-
-use as [name] = new timePicker( [canvas to bind to] , [ options ] )
+use as 
+```js
+[name] = new timePicker( [canvas to bind to] , [ options ] )
+```
+the [name] is used to call any of the functions after creation
 
 ## options array ##
 hours		 	 -> initial number of hours
