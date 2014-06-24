@@ -9,7 +9,7 @@ Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
 
 Look at the example.html file for examples
 
-See it working at www.vanoorschot.biz/example.html
+See it working at http://raspberry.vanoorschot.biz/code/timepicker/timepicker-demo.html
 
 use as 
 ```js
