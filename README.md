@@ -7,7 +7,7 @@ Works in all modern browsers that support html5 canvas and fully touch-friendly
 
 Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
 
-Look at the example.html file for examples
+Look at the timepicker-demo.html file for examples
 
 See it working at http://raspberry.vanoorschot.biz/code/timepicker/timepicker-demo.html
 
