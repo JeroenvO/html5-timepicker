@@ -3,13 +3,13 @@
 HTML5 canvas timepicker, inspired on windows 8 alarms app.
 Can be used as a time input field (instead of form) on a website and as a clock on a website.
 
-Works in all modern browsers that support html5 canvas and fully touch-friendly
+Works in all modern browsers that support html5 canvas
 
 Uses HTML5, javascript but not Jquery. Can easily be used as plugin.
 
-Look at the timepicker-demo.html file for examples
+Look at the example.html file for examples
 
-See it working at http://raspberry.vanoorschot.biz/code/timepicker/timepicker-demo.html
+See it working at https://jjvanoorschot.nl/scriptsweb/20140420HTML5%20canvas%20timepicker/timepicker-demo.html
 
 use as 
 ```js
@@ -25,7 +25,7 @@ the [name] is used to call any of the functions after creation
 * animationStep    -> number of drawings to animate the handler to its position default is 5, so 50ms
 * drawInterval     -> number of milliseconds between drawing. default is 10ms = 100hz. The real speed depends on the browser and computer.
 * scale			 -> set the scale of the timepicker. This is the number of pixels the arcs for minutes and hours is thick. The alarms app uses 40px.  When not set, it adapts to the canvas size: scale = smallest_side / 10.
-
+* autoStartDraw	->Start the drawing timer when the timepicker is made, this is default. Set it to false if the timepicker is hidden, and then start the drawing manually with timePicker.startDraw(). This way the timepicker doesn't use CPU when it is not visible.
 ## functions ##
 * onTimeChange 	 -> callback on dragging the handles
 * onCenterClick 	 -> callback on clicking on the center
@@ -55,6 +55,3 @@ use selector.data('tp') to access the timePicker javascript functions:
 ## WinJS ##
 The timepicker can be used in a winJS windows 8.1 or phone 8.1 app just like it can be used on a website.
 Include the timePicker.js in the js folder of the project.
-
-## C# ##
-A C# version is under development
